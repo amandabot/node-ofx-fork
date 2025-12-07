@@ -1,8 +1,9 @@
-const xml2json = require('xml2json');
+const { XMLParser } = require('fast-xml-parser');
+const parser = new XMLParser();
 
 function sgml2Xml(sgml) {
   return sgml
-    .replace(/>\s+</g, '><')    // remove whitespace inbetween tag close/open
+    .replace(/>\s+</g, '><')    // remove whitespace in between tag close/open
     .replace(/\s+</g, '<')      // remove whitespace before a close tag
     .replace(/>\s+/g, '>')      // remove whitespace after a close tag
     .replace(/<([A-Z0-9_]*)+\.+([A-Z0-9_]*)>([^<]+)/g, '<\$1\$2>\$3')
@@ -10,7 +11,7 @@ function sgml2Xml(sgml) {
 }
 
 function parseXml(content) {
-  return JSON.parse(xml2json.toJson(content, { coerce: false }))
+  return parser.parse(content);
 }
 
 function parse(data) {
